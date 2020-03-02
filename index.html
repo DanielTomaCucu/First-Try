@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <title>Cool Api Weather</title>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="index.css">   <link rel="icon" href="ico.png" sizes="32x32">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+       
+          
+           <div class="content">
+             <div class="img">
+                <img src="https://i.pinimg.com/originals/f5/a7/04/f5a704cdad2914e7d68a808125b7bcef.jpg" >
+             </div>
+             <div class="main">
+                <h1> Vreme</h1>
+                 <div class="main2">
+                       <input type="text" id="oras" class="oras"  placeholder="Oras...">
+                       <button type="submit" id="trimite">Vezi vreme</button>
+                 </div>
+               <div id="show"></div>
+             </div>
+           </div>
+         <p class="copy">&copy 2019 Toate drepturile rezervate .Cucu Toma Daniel</p>
+         
+        
+        <script> 
+        $(document).ready(function(){
+    
+            $('#trimite').click(function(){
+                var oras= $('#oras').val();
+                if(oras != ' '){
+                    $.ajax({
+                        url:'http://api.openweathermap.org/data/2.5/weather?q='+ oras + '&units=metric'+ '&APPID=eef9c248198c24add1ea29b6518865dc',
+                        type:"GET",
+                        dataType:"jsonp",
+                        success:function(data){
+                            var vreme=show(data);
+                            $('#show').html(vreme);
+                            $('#oras').val(' ');
+                         
+                        }
+
+                    });
+                }
+                else{
+                    $('#eroare').html('Trebuie sa alegryi un oras');
+                }
+            });
+
+        });
+              function show(data){
+                  return "<h3  class='h1'><b>Vremea pentru</b> "+ data.name + ", " + data.sys.country +"<h3>"+
+                      
+                         "<h3><b>Vremea</b>:<img  class='icon' src='http://openweathermap.org/img/w/"+data.weather[0].icon+".png' "+ "</h3>"+
+                         "<h3><b>Temperatura</b>: " + data.main.temp + "&deg;C</h3>"+
+                         "<h3><b>Presiunea atmosferica</b>: " + data.main.pressure +" mPh</h3>"+
+                         "<h3><b>Umiditatea</b>: " + data.main.humidity +"%</h3>"+
+                         "<h3><b>Temperatura minima</b>: " + data.main.temp_min +"&deg;C</h3>"+
+                         "<h3><b>Temperatura maxima</b>: " + data.main.temp_max +"&deg;C</h3>"+
+                         "<h3><b>Viteza vantului</b>: " + data.wind.speed +" m/s</h3>";
+              }
+              
+        </script>
+    </body>
+</html>
